@@ -44,29 +44,22 @@ export default function ScheduleSidebar() {
           <p className="text-gray-600">No sessions added yet.</p>
         ) : (
           <ul className="space-y-4">
-            {schedule.map((session) => {
-              // Format the date consistently using a fixed locale
-              const formattedTime = new Date(session.date).toLocaleTimeString(
-                "en-US",
-                {
-                  hour: "numeric",
-                  minute: "numeric",
-                  hour12: true,
-                }
-              );
-
-              return (
-                <li
-                  key={session.id}
-                  className="border p-4 rounded-lg shadow-sm"
-                >
-                  <h3 className="text-lg font-semibold">{session.title}</h3>
-                  <p className="text-gray-600">
-                    <strong>Time:</strong> {formattedTime}
-                  </p>
-                </li>
-              );
-            })}
+            {schedule.map((session) => (
+              <li
+                key={`${session.id}-${session.title}`}
+                className="border p-4 rounded-lg shadow-sm"
+              >
+                <h3 className="text-lg font-semibold">{session.title}</h3>
+                <p className="text-gray-600">
+                  <strong>Time:</strong>{" "}
+                  {new Date(session.date).toLocaleTimeString("en-US", {
+                    hour: "numeric",
+                    minute: "numeric",
+                    hour12: true,
+                  })}
+                </p>
+              </li>
+            ))}
           </ul>
         )}
       </div>

@@ -1,5 +1,6 @@
 // import SessionItem from "@/components/SessionItem";
 
+import Recommendations from "@/app/components/Recommendations";
 import SessionItem from "@/app/components/SessionItem";
 
 export const revalidate = 3600; // Revalidate every 1 hour (ISR)
@@ -90,6 +91,9 @@ export default async function ConferenceDetailPage({ params }) {
           ))}
         </ul>
       </div>
+
+      {/* Recommendations */}
+      <Recommendations allSessions={conference.sessions} />
     </div>
   );
 }
