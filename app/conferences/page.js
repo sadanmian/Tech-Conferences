@@ -1,6 +1,7 @@
 // app/conferences/page.js
 import Link from "next/link";
 import ConferenceFilters from "../components/ConferenceFilters";
+const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 
 export default async function ConferencesPage({ searchParams }) {
   // Extract filter parameters from URL query
@@ -9,8 +10,8 @@ export default async function ConferencesPage({ searchParams }) {
   const currentPage = parseInt(page);
 
   // Fetch conferences from the API
-  const conferences = await fetch("http://localhost:3000/api/conferences").then(
-    (res) => res.json()
+  const conferences = await fetch(`${apiBaseUrl}/api/conferences`).then((res) =>
+    res.json()
   );
 
   // Validate the date parameter

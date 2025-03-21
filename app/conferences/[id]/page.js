@@ -2,6 +2,7 @@
 
 import Recommendations from "@/app/components/Recommendations";
 import SessionItem from "@/app/components/SessionItem";
+const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 
 export const revalidate = 3600; // Revalidate every 1 hour (ISR)
 
@@ -14,12 +15,9 @@ export default async function ConferenceDetailPage({ params }) {
   let conference;
   try {
     // Fetch conference details from the API
-    const response = await fetch(
-      `http://localhost:3000/api/conferences/${id}`,
-      {
-        cache: "no-store", // Ensure SSR
-      }
-    );
+    const response = await fetch(`${apiBaseUrl}/api/conferences/${id}`, {
+      cache: "no-store", // Ensure SSR
+    });
     if (!response.ok) {
       throw new Error("Failed to fetch conference details");
     }
