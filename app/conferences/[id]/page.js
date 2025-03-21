@@ -6,10 +6,10 @@ import SessionItem from "@/app/components/SessionItem";
 export const revalidate = 3600; // Revalidate every 1 hour (ISR)
 
 export default async function ConferenceDetailPage({ params }) {
-  const { id } = params;
+  const { id } = await params;
 
   // Log the ID for debugging
-  console.log("Fetching conference with ID:", id);
+  // console.log("Fetching conference with ID:", id);
 
   let conference;
   try {

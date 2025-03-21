@@ -4,7 +4,7 @@ import ConferenceFilters from "../components/ConferenceFilters";
 
 export default async function ConferencesPage({ searchParams }) {
   // Extract filter parameters from URL query
-  const { location, technology, date, page = 1 } = searchParams;
+  const { location, technology, date, page = 1 } = await searchParams;
   const itemsPerPage = 10;
   const currentPage = parseInt(page);
 
@@ -24,11 +24,11 @@ export default async function ConferencesPage({ searchParams }) {
     ? new Date(date).toISOString().split("T")[0]
     : null;
 
-  console.log("Filter Date (UTC):", filterDateUTC); // Debugging
-  console.log(
-    "Conference Dates:",
-    conferences.map((c) => c.date)
-  ); // Debugging
+  // console.log("Filter Date (UTC):", filterDateUTC); // Debugging
+  // console.log(
+  //   "Conference Dates:",
+  //   conferences.map((c) => c.date)
+  // ); // Debugging
 
   // Filter conferences based on search parameters
   const filteredConferences = conferences.filter((conference) => {

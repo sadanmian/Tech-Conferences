@@ -3,7 +3,7 @@ export async function GET(request, { params }) {
   const { id } = await params;
 
   // Log the ID for debugging
-  console.log("Fetching conference with ID:", id);
+  // console.log("Fetching conference with ID:", id);
 
   try {
     // Fetch data from JSONPlaceholder
