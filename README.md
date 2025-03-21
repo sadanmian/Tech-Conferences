@@ -147,7 +147,7 @@ Open [http://localhost:3000](http://localhost:3000) in your browser to view the 
 
 The application is live on **Vercel**:
 
-🔗 [https://tech-conference-dashboard.vercel.app](https://tech-conference-dashboard.vercel.app)
+🔗 [https://tech-conferences-orpin.vercel.app/](https://tech-conferences-orpin.vercel.app/)
 
 ---
 
