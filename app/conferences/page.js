@@ -1,14 +1,17 @@
+// app/conferences/page.js
 import Link from "next/link";
 import ConferenceFilters from "../components/ConferenceFilters";
 
 export default async function ConferencesPage({ searchParams }) {
+  // Extract filter parameters from URL query
+  const { location, technology, date, page = 1 } = await searchParams;
+  const itemsPerPage = 10;
+  const currentPage = parseInt(page);
+
+  // Fetch conferences from the API
   const conferences = await fetch("http://localhost:3000/api/conferences").then(
     (res) => res.json()
   );
-
-  const { location, technology, date, page = 1 } = searchParams;
-  const itemsPerPage = 5;
-  const currentPage = parseInt(page);
 
   // Filter conferences based on search parameters
   const filteredConferences = conferences.filter((conference) => {
@@ -20,7 +23,7 @@ export default async function ConferencesPage({ searchParams }) {
           session.technology.toLowerCase().includes(technology.toLowerCase())
         )) &&
       (!date ||
-        new Date(conference.sessions[0].date).toDateString() ===
+        new Date(conference.date).toDateString() ===
           new Date(date).toDateString())
     );
   });
@@ -32,16 +35,11 @@ export default async function ConferencesPage({ searchParams }) {
     startIndex + itemsPerPage
   );
 
-  // Calculate total pages
-  const totalPages = Math.ceil(filteredConferences.length / itemsPerPage);
-
-  // Generate page numbers
-  const pageNumbers = generatePageNumbers(currentPage, totalPages);
-
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Tech Conferences</h1>
 
+      {/* Use the Client Component for filters */}
       <ConferenceFilters
         location={location}
         technology={technology}
@@ -69,7 +67,7 @@ export default async function ConferencesPage({ searchParams }) {
       </div>
 
       {/* Pagination */}
-      <div className="flex justify-center mt-8 space-x-2">
+      <div className="flex justify-center mt-8 space-x-4">
         {currentPage > 1 && (
           <Link
             href={`/conferences?page=${currentPage - 1}&location=${
@@ -80,24 +78,7 @@ export default async function ConferencesPage({ searchParams }) {
             Previous
           </Link>
         )}
-
-        {pageNumbers.map((pageNumber, index) => (
-          <Link
-            key={index}
-            href={`/conferences?page=${pageNumber}&location=${
-              location || ""
-            }&technology=${technology || ""}&date=${date || ""}`}
-            className={`px-4 py-2 ${
-              pageNumber === currentPage
-                ? "bg-blue-600 text-white"
-                : "bg-blue-500 text-white hover:bg-blue-600"
-            } rounded-md`}
-          >
-            {pageNumber}
-          </Link>
-        ))}
-
-        {currentPage < totalPages && (
+        {filteredConferences.length > startIndex + itemsPerPage && (
           <Link
             href={`/conferences?page=${currentPage + 1}&location=${
               location || ""
@@ -111,43 +92,3 @@ export default async function ConferencesPage({ searchParams }) {
     </div>
   );
 }
-
-// Helper function to generate page numbers
-const generatePageNumbers = (currentPage, totalPages) => {
-  const pages = [];
-  const maxVisiblePages = 5; // Number of visible page numbers
-
-  if (totalPages <= maxVisiblePages) {
-    // Show all pages
-    for (let i = 1; i <= totalPages; i++) {
-      pages.push(i);
-    }
-  } else {
-    // Show a range of pages with ellipsis
-    const startPage = Math.max(
-      1,
-      currentPage - Math.floor(maxVisiblePages / 2)
-    );
-    const endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
-
-    if (startPage > 1) {
-      pages.push(1);
-      if (startPage > 2) {
-        pages.push("...");
-      }
-    }
-
-    for (let i = startPage; i <= endPage; i++) {
-      pages.push(i);
-    }
-
-    if (endPage < totalPages) {
-      if (endPage < totalPages - 1) {
-        pages.push("...");
-      }
-      pages.push(totalPages);
-    }
-  }
-
-  return pages;
-};
