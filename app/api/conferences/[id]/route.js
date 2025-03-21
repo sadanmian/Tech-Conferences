@@ -1,6 +1,6 @@
 // app/api/conferences/[id]/route.js
 export async function GET(request, { params }) {
-  const { id } = params;
+  const { id } = await params;
 
   // Log the ID for debugging
   console.log("Fetching conference with ID:", id);

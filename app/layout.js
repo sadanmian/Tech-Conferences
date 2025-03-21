@@ -1,5 +1,7 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { ScheduleProvider } from "@/context/ScheduleContext";
+import ScheduleSidebar from "./components/ScheduleSidebar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -22,7 +24,10 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <ScheduleProvider>
+          {children}
+          <ScheduleSidebar />
+        </ScheduleProvider>
       </body>
     </html>
   );
