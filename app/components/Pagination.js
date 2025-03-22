@@ -1,4 +1,5 @@
-"use client";
+// app/components/Pagination.js
+"use client"; // Mark this as a Client Component
 
 import Link from "next/link";
 import { FaChevronLeft, FaChevronRight, FaEllipsisH } from "react-icons/fa"; // Import icons
@@ -45,19 +46,37 @@ export default function Pagination({
     return pages;
   }, [currentPage, totalPages]);
 
+  // Function to build the query string dynamically
+  const buildQueryString = (page) => {
+    const params = new URLSearchParams();
+
+    // Add page parameter
+    params.set("page", page);
+
+    // Add filter parameters only if they have a value
+    if (filterParams.location) {
+      params.set("location", filterParams.location);
+    }
+    if (filterParams.technology) {
+      params.set("technology", filterParams.technology);
+    }
+    if (filterParams.date) {
+      params.set("date", filterParams.date);
+    }
+
+    return params.toString();
+  };
+
   return (
     <div className="flex justify-center mt-8 space-x-2">
       {/* Previous Button */}
       {currentPage > 1 && (
         <Link
-          href={`/conferences?page=${currentPage - 1}&location=${
-            filterParams.location || ""
-          }&technology=${filterParams.technology || ""}&date=${
-            filterParams.date || ""
-          }`}
+          href={`/conferences?${buildQueryString(currentPage - 1)}`}
           className="px-4 py-2 bg-white border border-gray-300 rounded-md hover:bg-gray-100 flex items-center space-x-2 transition-all duration-200"
         >
           <FaChevronLeft className="text-gray-600" />
+          <span className="text-gray-700">Previous</span>
         </Link>
       )}
 
@@ -73,11 +92,7 @@ export default function Pagination({
         ) : (
           <Link
             key={page}
-            href={`/conferences?page=${page}&location=${
-              filterParams.location || ""
-            }&technology=${filterParams.technology || ""}&date=${
-              filterParams.date || ""
-            }`}
+            href={`/conferences?${buildQueryString(page)}`}
             className={`px-4 py-2 border border-gray-300 rounded-md flex items-center justify-center transition-all duration-200 ${
               page === currentPage
                 ? "bg-blue-500 text-white border-blue-500"
@@ -92,13 +107,10 @@ export default function Pagination({
       {/* Next Button */}
       {currentPage < totalPages && (
         <Link
-          href={`/conferences?page=${currentPage + 1}&location=${
-            filterParams.location || ""
-          }&technology=${filterParams.technology || ""}&date=${
-            filterParams.date || ""
-          }`}
+          href={`/conferences?${buildQueryString(currentPage + 1)}`}
           className="px-4 py-2 bg-white border border-gray-300 rounded-md hover:bg-gray-100 flex items-center space-x-2 transition-all duration-200"
         >
+          <span className="text-gray-700">Next</span>
           <FaChevronRight className="text-gray-600" />
         </Link>
       )}
