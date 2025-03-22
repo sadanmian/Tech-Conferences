@@ -1,12 +1,7 @@
-// app/api/conferences/[id]/route.js
 export async function GET(request, { params }) {
   const { id } = await params;
 
-  // Log the ID for debugging
-  // console.log("Fetching conference with ID:", id);
-
   try {
-    // Fetch data from JSONPlaceholder
     const users = await fetch(
       "https://jsonplaceholder.typicode.com/users"
     ).then((res) => res.json());

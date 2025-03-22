@@ -1,4 +1,3 @@
-// app/conferences/page.js
 import Link from "next/link";
 import ConferenceFilters from "../components/ConferenceFilters";
 const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
@@ -24,12 +23,6 @@ export default async function ConferencesPage({ searchParams }) {
   const filterDateUTC = isValidDate(date)
     ? new Date(date).toISOString().split("T")[0]
     : null;
-
-  // console.log("Filter Date (UTC):", filterDateUTC); // Debugging
-  // console.log(
-  //   "Conference Dates:",
-  //   conferences.map((c) => c.date)
-  // ); // Debugging
 
   // Filter conferences based on search parameters
   const filteredConferences = conferences.filter((conference) => {

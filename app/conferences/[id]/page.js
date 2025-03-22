@@ -1,5 +1,3 @@
-// import SessionItem from "@/components/SessionItem";
-
 import Recommendations from "@/app/components/Recommendations";
 import SessionItem from "@/app/components/SessionItem";
 const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
@@ -8,9 +6,6 @@ export const revalidate = 3600; // Revalidate every 1 hour (ISR)
 
 export default async function ConferenceDetailPage({ params }) {
   const { id } = await params;
-
-  // Log the ID for debugging
-  // console.log("Fetching conference with ID:", id);
 
   let conference;
   try {

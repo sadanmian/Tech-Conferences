@@ -1,5 +1,4 @@
-// app/components/ConferenceFilters.js
-"use client"; // Mark this as a Client Component
+"use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState, useEffect } from "react";
@@ -53,7 +52,7 @@ export default function ConferenceFilters() {
       <input
         type="text"
         placeholder="Filter by location"
-        value={location} // Controlled input
+        value={location}
         onChange={(e) => {
           setLocation(e.target.value); // Update local state
           handleFilterChange("location", e.target.value); // Update URL
@@ -63,7 +62,7 @@ export default function ConferenceFilters() {
       <input
         type="text"
         placeholder="Filter by technology"
-        value={technology} // Controlled input
+        value={technology}
         onChange={(e) => {
           setTechnology(e.target.value); // Update local state
           handleFilterChange("technology", e.target.value); // Update URL
@@ -72,7 +71,7 @@ export default function ConferenceFilters() {
       />
       <input
         type="date"
-        value={date} // Controlled input
+        value={date}
         onChange={(e) => {
           setDate(e.target.value); // Update local state
           handleFilterChange("date", e.target.value); // Update URL

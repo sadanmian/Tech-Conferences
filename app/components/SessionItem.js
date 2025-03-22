@@ -1,4 +1,4 @@
-"use client"; // Mark this as a Client Component
+"use client";
 
 import { useState } from "react";
 import { useSchedule } from "@/context/ScheduleContext";
