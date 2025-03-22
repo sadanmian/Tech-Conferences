@@ -1,13 +1,14 @@
 import Link from "next/link";
 import ConferenceFilters from "../components/ConferenceFilters";
 import Pagination from "../components/Pagination";
+import ConferenceCard from "../components/ConferenceCard";
 
 const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 
 export default async function ConferencesPage({ searchParams }) {
   // Extract filter parameters from URL query
   const { location, technology, date, page = 1 } = await searchParams;
-  const itemsPerPage = 5;
+  const itemsPerPage = 10;
   const currentPage = parseInt(page);
 
   // Fetch conferences from the API
@@ -76,23 +77,7 @@ export default async function ConferencesPage({ searchParams }) {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {paginatedConferences.map((conference) => (
-            <div
-              key={conference.id}
-              className="border p-4 rounded-lg shadow-sm"
-            >
-              <h2 className="text-xl font-semibold">{conference.name}</h2>
-              <p className="text-gray-600">{conference.organizer}</p>
-              <p className="text-gray-600">{conference.location}</p>
-              <p className="text-gray-600">
-                {conference.sessions.length} sessions
-              </p>
-              <Link
-                href={`/conferences/${conference.id}`}
-                className="text-blue-500 hover:underline"
-              >
-                View Details
-              </Link>
-            </div>
+            <ConferenceCard key={conference.id} conference={conference} />
           ))}
         </div>
       )}
