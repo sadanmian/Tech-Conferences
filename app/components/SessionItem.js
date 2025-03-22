@@ -1,5 +1,4 @@
 "use client";
-
 import { useState } from "react";
 import { useSchedule } from "@/context/ScheduleContext";
 
@@ -10,7 +9,7 @@ export default function SessionItem({ session }) {
   // Check if a session is already in the schedule
   const isSessionInSchedule = schedule.some((s) => s.id === session.id);
 
-  // Format the date consistently using a fixed locale
+  // Format the date for user display (time only)
   const formattedTime = new Date(session.date).toLocaleTimeString("en-US", {
     hour: "numeric",
     minute: "numeric",
@@ -20,9 +19,10 @@ export default function SessionItem({ session }) {
   const handleAddToSchedule = () => {
     try {
       addToSchedule(session);
-      setError(null); // Clear any previous error
+      setError(null);
     } catch (error) {
-      setError(error.message); // Display the error message
+      // If addToSchedule throws or you want to catch other possible errors
+      setError(error.message);
     }
   };
 
@@ -33,6 +33,7 @@ export default function SessionItem({ session }) {
       <p className="text-gray-600">
         <strong>Time:</strong> {formattedTime}
       </p>
+
       {session.speaker && (
         <div className="mt-2">
           <p className="text-gray-600">
@@ -51,7 +52,7 @@ export default function SessionItem({ session }) {
               <strong>Bio:</strong> {session.speaker.bio}
             </p>
           )}
-          {session.speaker.repositories.length > 0 && (
+          {session.speaker.repositories?.length > 0 && (
             <div className="mt-2">
               <p className="text-gray-600 font-semibold">Repositories:</p>
               <ul className="list-disc list-inside">
@@ -74,7 +75,7 @@ export default function SessionItem({ session }) {
         </div>
       )}
 
-      {/* Add/Remove from Schedule Buttons */}
+      {/* Add/Remove from schedule button */}
       {isSessionInSchedule ? (
         <button
           onClick={() => removeFromSchedule(session.id)}
@@ -91,7 +92,7 @@ export default function SessionItem({ session }) {
         </button>
       )}
 
-      {/* Display error message if there's a conflict */}
+      {/* Conflict / other errors */}
       {error && <p className="mt-2 text-sm text-red-500">{error}</p>}
     </li>
   );
