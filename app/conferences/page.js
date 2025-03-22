@@ -1,11 +1,13 @@
 import Link from "next/link";
 import ConferenceFilters from "../components/ConferenceFilters";
+import Pagination from "../components/Pagination";
+
 const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 
 export default async function ConferencesPage({ searchParams }) {
   // Extract filter parameters from URL query
   const { location, technology, date, page = 1 } = await searchParams;
-  const itemsPerPage = 10;
+  const itemsPerPage = 5;
   const currentPage = parseInt(page);
 
   // Fetch conferences from the API
@@ -97,28 +99,12 @@ export default async function ConferencesPage({ searchParams }) {
 
       {/* Pagination */}
       {filteredConferences.length > 0 && (
-        <div className="flex justify-center mt-8 space-x-4">
-          {currentPage > 1 && (
-            <Link
-              href={`/conferences?page=${currentPage - 1}&location=${
-                location || ""
-              }&technology=${technology || ""}&date=${date || ""}`}
-              className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-            >
-              Previous
-            </Link>
-          )}
-          {filteredConferences.length > startIndex + itemsPerPage && (
-            <Link
-              href={`/conferences?page=${currentPage + 1}&location=${
-                location || ""
-              }&technology=${technology || ""}&date=${date || ""}`}
-              className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-            >
-              Next
-            </Link>
-          )}
-        </div>
+        <Pagination
+          currentPage={currentPage}
+          totalItems={filteredConferences.length}
+          itemsPerPage={itemsPerPage}
+          filterParams={{ location, technology, date }}
+        />
       )}
     </div>
   );
